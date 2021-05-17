@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="p5.js"></script>
+  <script src="p5.svg.js"></script>
+</head>
+
+<body>
+
+  <script>
+
+    let aryPosNum = [];
+    let aryPosChar = [];
+    let strLogo = "0987654321ABZAQWSXCDERFVBGTYHNMJUIKLOP";
+    let start;
+    let end;
+    let cWidth = 300;
+    let cHeight = 300;
+
+    function setup() {
+      createCanvas(cWidth, cHeight, SVG);
+      for (let i = 0; i < 26; i++) {
+        textAlign(CENTER, CENTER);
+        textSize(0);
+        let tempCharvect = createVector(137.5 * cos(PI * i * 2 / 26 - PI / 2 + PI / 26), 137.5 * sin(PI * i * 2 / 26 - PI / 2 + PI / 26));
+        aryPosChar.push(tempCharvect);
+      }
+      for (let i = 0; i < 10; i++) {
+        textAlign(CENTER, CENTER);
+        textSize(20);
+        let tempNumvect = createVector(112.5 * cos(PI * i * 2 / 10 - PI / 2 - PI / 10), 112.5 * sin(PI * i * 2 / 10 - PI / 2 - PI / 10));
+        aryPosNum.push(tempNumvect);
+      }
+      translate(width / 2, height / 2);
+      noStroke();
+      fill(0);
+      for (let i = 0; i < strLogo.length - 1; i++) { // draw Signature
+        let temp1 = unchar(strLogo.charAt(i));
+        let temp2 = unchar(strLogo.charAt(i + 1));
+        let vect1 = findVect(temp1);
+        let vect2 = findVect(temp2);
+        drawVaryingWidthLine(vect1.x, vect1.y, vect2.x, vect2.y, 10, 1);
+      }
+      // save("mySVG.svg");
+      // print("saved svg");
+    }
+
+    function drawVaryingWidthLine(x1, y1, x2, y2, startWidth, endWidth) {
+      const halfStartWidth = startWidth / 2;
+      const halfEndwidth = endWidth / 2;
+      beginShape();
+      vertex(x1 + halfStartWidth, y1 - halfStartWidth);
+      vertex(x2 + halfEndwidth, y2 - halfEndwidth);
+      vertex(x2 - halfEndwidth, y2 + halfEndwidth);
+      vertex(x1 - halfStartWidth, y1 + halfStartWidth);
+      vertex(x1 + halfStartWidth, y1 - halfStartWidth);
+      endShape();
+    }
+
+    function findVect(num) {
+      if (num >= 65 && num <= 90) {
+        return (aryPosChar[num - 65]);
+      }
+      if (num >= 48 && num <= 57) {
+        return (aryPosNum[num - 48]);
+      }
+    }
+
+  </script>
+
+</body>
+
+</html>
